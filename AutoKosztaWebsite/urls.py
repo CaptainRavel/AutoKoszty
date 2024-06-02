@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 from Car_Management.views import home_page, cars_base, calculators
 
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_panel'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('home/', home_page, name='home_page'),
     path('cars_base/', cars_base, name='cars_base'),
     path('calculators/', calculators, name='calculators'),
