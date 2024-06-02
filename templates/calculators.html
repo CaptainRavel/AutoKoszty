@@ -45,8 +45,8 @@
             <div class="card-body">
               <form id="powerForm">
                 <div class="mb-3">
-                  <label for="numberInput" class="form-label">Wpisz moc:</label>
-                  <input type="number" class="form-control" id="numberInput" required>
+                  <label for="powerNumberInput" class="form-label">Wpisz moc:</label>
+                  <input type="number" class="form-control" id="powerNumberInput" required>
                 </div>
                 <div class="mb-3">
                   <label for="unitSelect" class="form-label">Wybierz jednostkę:</label>
@@ -62,7 +62,7 @@
                 <button type="submit" class="btn btn-warning w-100">Przelicz</button>
               </form>
               <div class="mt-3">
-                <h5 id="result-header"></h5>
+                <h5 id="powerResultHeader"></h5>
                 <table class="table">
                   <thead>
                     <tr>
@@ -70,7 +70,7 @@
                       <th>Jednostka</th>
                     </tr>
                   </thead>
-                  <tbody id="result-table">
+                  <tbody id="powerResultTable">
                   </tbody>
                 </table>
               </div>
@@ -266,10 +266,10 @@
 <script>
   document.getElementById('powerForm').addEventListener('submit', function(event) {
     event.preventDefault();
-
+  
     const number = parseFloat(document.getElementById('powerNumberInput').value);
-    const unit = document.getElementById('powerUnitSelect').value;
-
+    const unit = document.getElementById('unitSelect').value;
+  
     // Konwersje na kW (kilowaty)
     let powerInKW;
     switch(unit) {
@@ -292,7 +292,7 @@
         powerInKW = number * 1000;
         break;
     }
-
+  
     // Konwersje z kW na inne jednostki
     const results = [
       { value: powerInKW.toFixed(2), unit: 'kW', fullUnit: 'Kilowat' },
@@ -302,11 +302,11 @@
       { value: (powerInKW / 0.73549875).toFixed(2), unit: 'PS', fullUnit: 'Pferdestärke' },
       { value: (powerInKW / 1000).toFixed(2), unit: 'MW', fullUnit: 'Megawat' }
     ];
-
+  
     // Ustawienie nagłówka wyniku
     const resultHeader = `Moc ${number} ${unit} jest równa:`;
     document.getElementById('powerResultHeader').innerText = resultHeader;
-
+  
     // Wypełnienie tabeli wyników
     const resultTable = document.getElementById('powerResultTable');
     resultTable.innerHTML = ''; // Wyczyść tabelę wyników
@@ -321,7 +321,7 @@
       resultTable.appendChild(row);
     });
   });
-
+  
   document.getElementById('speedForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
