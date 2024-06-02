@@ -2,7 +2,124 @@
 {% load static %}
 
 {% block title %}Strona główna{% endblock %}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% block website_body %}
+<h1>Select Car Details</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.make.label }}: {{ form.make }}
+        <br>
+        {{ form.model.label }}: {{ form.model }}
+        <br>
+        {{ form.generation.label }}: {{ form.generation }}
+        <br>
+        {{ form.serie.label }}: {{ form.serie }}
+        <br>
+        {{ form.trim.label }}: {{ form.trim }}
+        <br>
+    </form>
+
+    <h2>Specifications</h2>
+    <div id="specs">
+        <!-- Specyfikacje zostaną tutaj załadowane -->
+    </div>
+
+    <script type="text/javascript">
+        $("#id_make").change(function () {
+            var url = "{% url 'ajax_load_models' %}";
+            var makeId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'make': makeId
+                },
+                success: function (data) {
+                    $("#id_model").html('<option value="">Select Model</option>');
+                    $("#id_generation").html('<option value="">Select Generation</option>');
+                    $("#id_serie").html('<option value="">Select Serie</option>');
+                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    $.each(data, function (key, value) {
+                        $("#id_model").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_model").change(function () {
+            var url = "{% url 'ajax_load_generations' %}";
+            var modelId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'model': modelId
+                },
+                success: function (data) {
+                    $("#id_generation").html('<option value="">Select Generation</option>');
+                    $("#id_serie").html('<option value="">Select Serie</option>');
+                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    $.each(data, function (key, value) {
+                        $("#id_generation").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_generation").change(function () {
+            var url = "{% url 'ajax_load_series' %}";
+            var generationId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'generation': generationId
+                },
+                success: function (data) {
+                    $("#id_serie").html('<option value="">Select Serie</option>');
+                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    $.each(data, function (key, value) {
+                        $("#id_serie").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_serie").change(function () {
+            var url = "{% url 'ajax_load_trims' %}";
+            var serieId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'serie': serieId
+                },
+                success: function (data) {
+                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    $.each(data, function (key, value) {
+                        $("#id_trim").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_trim").change(function () {
+            var url = "{% url 'ajax_load_specs' %}";
+            var trimId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'trim': trimId
+                },
+                success: function (data) {
+                    $("#specs").html('');
+                    $.each(data, function (key, value) {
+                        $("#specs").append('<p>' + value.spec__name + ': ' + value.value + ' ' + value.unit + '</p>');
+                    });
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

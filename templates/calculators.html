@@ -27,126 +27,238 @@
     </div>
   </nav>
 
-<div class="container mt-5">
-    <div class="card">
-      <div class="card-header text-center">
-        <h3>Przelicznik jednostek mocy</h3>
-      </div>
-      <div class="card-body">
-        <form id="powerForm">
-          <div class="mb-3">
-            <label for="powerNumberInput" class="form-label">Wpisz moc:</label>
-            <input type="number" class="form-control" id="powerNumberInput" required>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Column 1: Przeliczniki danych -->
+      <div class="col-md-6">
+        <h2>Przeliczniki danych</h2>
+        
+        <!-- Power Converter Card -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Przelicznik jednostek mocy</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#powerConverter" aria-expanded="false" aria-controls="powerConverter">
+              Rozwiń
+            </button>
           </div>
-          <div class="mb-3">
-            <label for="powerUnitSelect" class="form-label">Wybierz jednostkę:</label>
-            <select class="form-select" id="powerUnitSelect" required>
-              <option value="kW">Kilowat (kW)</option>
-              <option value="KM">Konie mechaniczne (KM)</option>
-              <option value="BHP">Brake horsepower (BHP)</option>
-              <option value="HP">Horsepower (HP)</option>
-              <option value="PS">Pferdestärke (PS)</option>
-              <option value="MW">Megawat (MW)</option>
-            </select>
+          <div class="collapse" id="powerConverter">
+            <div class="card-body">
+              <form id="powerForm">
+                <div class="mb-3">
+                  <label for="numberInput" class="form-label">Wpisz moc:</label>
+                  <input type="number" class="form-control" id="numberInput" required>
+                </div>
+                <div class="mb-3">
+                  <label for="unitSelect" class="form-label">Wybierz jednostkę:</label>
+                  <select class="form-select" id="unitSelect" required>
+                    <option value="kW">Kilowat (kW)</option>
+                    <option value="KM">Konie mechaniczne (KM)</option>
+                    <option value="BHP">Brake horsepower (BHP)</option>
+                    <option value="HP">Horsepower (HP)</option>
+                    <option value="PS">Pferdestärke (PS)</option>
+                    <option value="MW">Megawat (MW)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <div class="mt-3">
+                <h5 id="result-header"></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ilość</th>
+                      <th>Jednostka</th>
+                    </tr>
+                  </thead>
+                  <tbody id="result-table">
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-warning w-100">Przelicz</button>
-        </form>
-        <div class="mt-3">
-          <h5 id="powerResultHeader"></h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Ilość</th>
-                <th>Jednostka</th>
-              </tr>
-            </thead>
-            <tbody id="powerResultTable">
-            </tbody>
-          </table>
+        </div>
+        
+        <!-- Speed Converter Card -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator prędkości</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#speedConverter" aria-expanded="false" aria-controls="speedConverter">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="speedConverter">
+            <div class="card-body">
+              <form id="speedForm">
+                <div class="mb-3">
+                  <label for="speedNumberInput" class="form-label">Wpisz prędkość:</label>
+                  <input type="number" class="form-control" id="speedNumberInput" required>
+                </div>
+                <div class="mb-3">
+                  <label for="speedUnitSelect" class="form-label">Wybierz jednostkę:</label>
+                  <select class="form-select" id="speedUnitSelect" required>
+                    <option value="kmh">Kilometry na godzinę (km/h)</option>
+                    <option value="mph">Mile na godzinę (mph)</option>
+                    <option value="ms">Metry na sekundę (m/s)</option>
+                    <option value="fps">Stopy na sekundę (fps)</option>
+                    <option value="kn">Węzły (kn)</option>
+                    <option value="nmh">Mile morskie na godzinę (nm/h)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <div class="mt-3">
+                <h5 id="speedResultHeader"></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ilość</th>
+                      <th>Jednostka</th>
+                    </tr>
+                  </thead>
+                  <tbody id="speedResultTable">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Pressure Converter Card -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator ciśnienia</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#pressureConverter" aria-expanded="false" aria-controls="pressureConverter">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="pressureConverter">
+            <div class="card-body">
+              <form id="pressureForm">
+                <div class="mb-3">
+                  <label for="pressureNumberInput" class="form-label">Wpisz ciśnienie:</label>
+                  <input type="number" class="form-control" id="pressureNumberInput" required>
+                </div>
+                <div class="mb-3">
+                  <label for="pressureUnitSelect" class="form-label">Wybierz jednostkę:</label>
+                  <select class="form-select" id="pressureUnitSelect" required>
+                    <option value="Pa">Paskale (Pa)</option>
+                    <option value="kPa">Kilopaskale (kPa)</option>
+                    <option value="MPa">Megapaskale (MPa)</option>
+                    <option value="bar">Bary (bar)</option>
+                    <option value="atm">Atmosfery techniczne (atm)</option>
+                    <option value="at">Atmosfery fizyczne (at)</option>
+                    <option value="psi">Funt na cal kwadratowy (psi)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <div class="mt-3">
+                <h5 id="pressureResultHeader"></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ilość</th>
+                      <th>Jednostka</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pressureResultTable">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Torque Converter Card -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator momentu obrotowego</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#torqueConverter" aria-expanded="false" aria-controls="torqueConverter">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="torqueConverter">
+            <div class="card-body">
+              <form id="torqueForm">
+                <div class="mb-3">
+                  <label for="torqueNumberInput" class="form-label">Wpisz moment obrotowy:</label>
+                  <input type="number" class="form-control" id="torqueNumberInput" required>
+                </div>
+                <div class="mb-3">
+                  <label for="torqueUnitSelect" class="form-label">Wybierz jednostkę:</label>
+                  <select class="form-select" id="torqueUnitSelect" required>
+                    <option value="Nm">Niutonometr (Nm)</option>
+                    <option value="lbft">Funtostopa (lb/ft)</option>
+                    <option value="kGm">Kilogramometr (kGm)</option>
+                    <option value="J">Dżul (J)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <div class="mt-3">
+                <h5 id="torqueResultHeader"></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Ilość</th>
+                      <th>Jednostka</th>
+                    </tr>
+                  </thead>
+                  <tbody id="torqueResultTable">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      <!-- Width Converter Card -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <h3>Kalkulator długości</h3>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#lengthConverter" aria-expanded="false" aria-controls="lengthConverter">
+            Rozwiń
+          </button>
+        </div>
+        <div class="collapse" id="lengthConverter">
+          <div class="card-body">
+            <form id="lengthForm">
+              <div class="mb-3">
+                <label for="lengthNumberInput" class="form-label">Wpisz długość:</label>
+                <input type="number" class="form-control" id="lengthNumberInput" required>
+              </div>
+              <div class="mb-3">
+                <label for="lengthUnitSelect" class="form-label">Wybierz jednostkę:</label>
+                <select class="form-select" id="lengthUnitSelect" required>
+                  <option value="cm">Centymetry (cm)</option>
+                  <option value="in">Cale (in)</option>
+                  <option value="ft">Stopy (ft)</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+            </form>
+            <div class="mt-3">
+              <h5 id="lengthResultHeader"></h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Ilość</th>
+                    <th>Jednostka</th>
+                  </tr>
+                </thead>
+                <tbody id="lengthResultTable">
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        Kalkulator prędkości
-      </div>
-      <div class="card-body">
-        <form id="speedForm">
-          <div class="mb-3">
-            <label for="speedNumberInput" class="form-label">Wpisz prędkość:</label>
-            <input type="number" class="form-control" id="speedNumberInput" required>
-          </div>
-          <div class="mb-3">
-            <label for="speedUnitSelect" class="form-label">Wybierz jednostkę:</label>
-            <select class="form-select" id="speedUnitSelect" required>
-              <option value="kmh">Kilometry na godzinę (km/h)</option>
-              <option value="mph">Mile na godzinę (mph)</option>
-              <option value="ms">Metry na sekundę (m/s)</option>
-              <option value="fps">Stopy na sekundę (fps)</option>
-              <option value="kn">Węzły (kn)</option>
-              <option value="nmh">Mile morskie na godzinę (nm/h)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-warning w-100">Przelicz</button>
-        </form>
-        <div class="mt-3">
-          <h5 id="speedResultHeader"></h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Ilość</th>
-                <th>Jednostka</th>
-              </tr>
-            </thead>
-            <tbody id="speedResultTable">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        Kalkulator ciśnienia
-      </div>
-      <div class="card-body">
-        <form id="pressureForm">
-          <div class="mb-3">
-            <label for="pressureNumberInput" class="form-label">Wpisz ciśnienie:</label>
-            <input type="number" class="form-control" id="pressureNumberInput" required>
-          </div>
-          <div class="mb-3">
-            <label for="pressureUnitSelect" class="form-label">Wybierz jednostkę:</label>
-            <select class="form-select" id="pressureUnitSelect" required>
-              <option value="Pa">Paskal (Pa)</option>
-              <option value="kPa">Kilopaskal (kPa)</option>
-              <option value="MPa">Megapaskal (MPa)</option>
-              <option value="atm">Atmosfera techniczna (atm)</option>
-              <option value="at">Atmosfera fizyczna (at)</option>
-              <option value="bar">Bar (bar)</option>
-              <option value="psi">Funt na cal kwadratowy (psi)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-warning w-100">Przelicz</button>
-        </form>
-        <div class="mt-3">
-          <h5 id="pressureResultHeader"></h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Ilość</th>
-                <th>Jednostka</th>
-              </tr>
-            </thead>
-            <tbody id="pressureResultTable">
-            </tbody>
-          </table>
-        </div>
+  
+      <!-- Column 2: Użytkowanie auta -->
+      <div class="col-md-6">
+        <h2>Użytkowanie auta</h2>
+        <!-- Your content for this column goes here -->
       </div>
     </div>
   </div>
@@ -314,6 +426,96 @@
 
     const resultTable = document.getElementById('pressureResultTable');
     resultTable.innerHTML = ''; // Wyczyść tabelę wyników
+    results.forEach(result => {
+      const row = document.createElement('tr');
+      const cellValue = document.createElement('td');
+      const cellUnit = document.createElement('td');
+      cellValue.innerText = result.value;
+      cellUnit.innerText = `${result.unit} (${result.fullUnit})`;
+      row.appendChild(cellValue);
+      row.appendChild(cellUnit);
+      resultTable.appendChild(row);
+    });
+  });
+document.getElementById('torqueForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const number = parseFloat(document.getElementById('torqueNumberInput').value);
+    const unit = document.getElementById('torqueUnitSelect').value;
+
+    // Konwersje na Nm (Newtonometry)
+    let torqueInNm;
+    switch(unit) {
+      case 'Nm':
+        torqueInNm = number;
+        break;
+      case 'lbft':
+        torqueInNm = number * 1.35582;
+        break;
+      case 'kGm':
+        torqueInNm = number * 9.80665;
+        break;
+      case 'J':
+        torqueInNm = number;
+        break;
+      default:
+        alert('Nieznana jednostka');
+        return;
+    }
+
+    const results = [
+      { value: torqueInNm.toFixed(2), unit: 'Nm', fullUnit: 'Newtonometry' },
+      { value: (torqueInNm / 1.35582).toFixed(2), unit: 'lb/ft', fullUnit: 'Funt-stopy' },
+      { value: (torqueInNm / 9.80665).toFixed(2), unit: 'kGm', fullUnit: 'Kilogramometry' },
+      { value: torqueInNm.toFixed(2), unit: 'J', fullUnit: 'Dżule' }
+    ];
+
+    const resultHeader = `Moment obrotowy ${number} ${unit} jest równy:`;
+    document.getElementById('torqueResultHeader').innerText = resultHeader;
+
+    const resultTable = document.getElementById('torqueResultTable');
+    resultTable.innerHTML = ''; // Wyczyść tabelę wyników
+    results.forEach(result => {
+      const row = document.createElement('tr');
+      const cellValue = document.createElement('td');
+      const cellUnit = document.createElement('td');
+      cellValue.innerText = result.value;
+      cellUnit.innerText = `${result.unit} (${result.fullUnit})`;
+      row.appendChild(cellValue);
+      row.appendChild(cellUnit);
+      resultTable.appendChild(row);
+    });
+  });
+  document.getElementById('lengthForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const number = parseFloat(document.getElementById('lengthNumberInput').value);
+    const unit = document.getElementById('lengthUnitSelect').value;
+
+    let lengthInCm;
+    switch(unit) {
+      case 'cm':
+        lengthInCm = number;
+        break;
+      case 'in':
+        lengthInCm = number * 2.54;
+        break;
+      case 'ft':
+        lengthInCm = number * 30.48;
+        break;
+    }
+
+    const results = [
+      { value: lengthInCm.toFixed(2), unit: 'cm', fullUnit: 'Centymetry' },
+      { value: (lengthInCm / 2.54).toFixed(2), unit: 'in', fullUnit: 'Cale' },
+      { value: (lengthInCm / 30.48).toFixed(2), unit: 'ft', fullUnit: 'Stopy' }
+    ];
+
+    const resultHeader = `Długość ${number} ${unit} jest równa:`;
+    document.getElementById('lengthResultHeader').innerText = resultHeader;
+
+    const resultTable = document.getElementById('lengthResultTable');
+    resultTable.innerHTML = '';
     results.forEach(result => {
       const row = document.createElement('tr');
       const cellValue = document.createElement('td');

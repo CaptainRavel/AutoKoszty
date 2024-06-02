@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from Car_Management.views import home_page, cars_base, calculators
+from Car_Management.views import home_page, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs
 
 
 urlpatterns = [
@@ -27,6 +27,12 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('home/', home_page, name='home_page'),
-    path('cars_base/', cars_base, name='cars_base'),
     path('calculators/', calculators, name='calculators'),
+    path('cars_base/', car_selection_view, name='cars_base'),
+    path('ajax/load-models/', load_models, name='ajax_load_models'),
+    path('ajax/load-generations/', load_generations, name='ajax_load_generations'),
+    path('ajax/load-series/', load_series, name='ajax_load_series'),
+    path('ajax/load-trims/', load_trims, name='ajax_load_trims'),
+    path('ajax/load-specs/', load_specs, name='ajax_load_specs'),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
