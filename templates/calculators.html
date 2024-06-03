@@ -258,10 +258,143 @@
       <!-- Column 2: Użytkowanie auta -->
       <div class="col-md-6">
         <h2>Użytkowanie auta</h2>
-        <!-- Your content for this column goes here -->
-      </div>
-    </div>
-  </div>
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator czasu podróży</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#travel-time-calculator" aria-expanded="false" aria-controls="travel-time-calculator">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="travel-time-calculator">
+            <div class="card-body">
+              <form id="travel-time-calculator">
+                <div class="form-group">
+                  <label for="distance">Odległość (km):</label>
+                  <input type="number" class="form-control" id="distance" placeholder="Wprowadź odległość w kilometrach" required>
+                </div>
+                <div class="form-group">
+                  <label for="speed1">Średnia prędkość 1 (km/h):</label>
+                  <input type="number" class="form-control" id="speed1" placeholder="Wprowadź prędkość w km/h" required>
+                </div>
+                <div class="form-group">
+                  <label for="speed2">Średnia prędkość 2 (km/h) (opcjonalnie):</label>
+                  <input type="number" class="form-control" id="speed2" placeholder="Wprowadź prędkość w km/h">
+                </div>
+                <div class="form-group">
+                  <label for="speed3">Średnia prędkość 3 (km/h) (opcjonalnie):</label>
+                  <input type="number" class="form-control" id="speed3" placeholder="Wprowadź prędkość w km/h">
+                </div>
+                <button type="submit" class="btn btn-primary">Oblicz</button>
+              </form>
+              <h3>Wyniki:</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Wynik</th>
+                  </tr>
+                </thead>
+                <tbody id="results-table-body-travel-time">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator średniej prędkości</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#speedCalculator" aria-expanded="false" aria-controls="speedCalculator">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="speedCalculator">
+            <div class="card-body">
+              <form id="speed-calculator">
+                <div class="form-group">
+                  <label for="distance-speed">Odległość (km):</label>
+                  <input type="number" class="form-control" id="distance-speed" placeholder="Wprowadź odległość w kilometrach" required>
+                </div>
+                <div class="form-group">
+                  <label for="travelTimeHours">Czas podróży:</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="travelTimeHours" placeholder="Godziny" required>
+                    <span class="input-group-text">godz.</span>
+                    <input type="number" class="form-control" id="travelTimeMinutes" placeholder="Minuty" required>
+                    <span class="input-group-text">min.</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="stopTimeHours">Czas postoju (opcjonalnie):</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="stopTimeHours" placeholder="Godziny">
+                    <span class="input-group-text">godz.</span>
+                    <input type="number" class="form-control" id="stopTimeMinutes" placeholder="Minuty">
+                    <span class="input-group-text">min.</span>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <h3>Wyniki:</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Wynik</th>
+                  </tr>
+                </thead>
+                <tbody id="results-table-body-speed">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-header">
+            <h3>Kalkulator średniego zużycia paliwa</h3>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#fuelCalculator" aria-expanded="false" aria-controls="fuelCalculator">
+              Rozwiń
+            </button>
+          </div>
+          <div class="collapse" id="fuelCalculator">
+            <div class="card-body">
+              <form id="fuel-calculator">
+                <div class="form-group">
+                  <label for="price">Cena paliwa:</label>
+                  <div class="input-group">
+                    <input type="number" min="0.01" step="0.01" class="form-control" id="price" placeholder="Wprowadź cenę paliwa" required>
+                    <select class="form-select" id="currency" required>
+                      <option value="PLN">PLN</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <!-- Dodaj inne najpopularniejsze waluty -->
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="distance-fuel">Przejechane kilometry (km):</label>
+                  <input type="number" min="1" class="form-control" id="distance-fuel" placeholder="Wprowadź przejechaną odległość w km" required>
+                </div>
+                <div class="form-group">
+                  <label for="fuel">Ilość paliwa (l):</label>
+                  <input type="number" min="0.01" step="0.01" class="form-control" id="fuel" placeholder="Wprowadź zużytą ilość paliwa w litrach" required>
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+              </form>
+              <h3>Wyniki:</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Wynik</th>
+                  </tr>
+                </thead>
+                <tbody id="results-table-body-fuel">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
 <script>
   document.getElementById('powerForm').addEventListener('submit', function(event) {
@@ -527,6 +660,137 @@ document.getElementById('torqueForm').addEventListener('submit', function(event)
       resultTable.appendChild(row);
     });
   });
+  document.getElementById('travel-time-calculator').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const distance = parseFloat(document.getElementById('distance').value);
+    const speed1 = parseFloat(document.getElementById('speed1').value);
+    const speed2 = parseFloat(document.getElementById('speed2').value);
+    const speed3 = parseFloat(document.getElementById('speed3').value);
+
+    let results = [];
+
+    if (!isNaN(distance) && !isNaN(speed1) && speed1 > 0) {
+        const time1 = distance / speed1;
+        results.push({ speed: speed1, time: formatTime(time1) });
+    }
+
+    if (!isNaN(distance) && !isNaN(speed2) && speed2 > 0) {
+        const time2 = distance / speed2;
+        results.push({ speed: speed2, time: formatTime(time2) });
+    }
+
+    if (!isNaN(distance) && !isNaN(speed3) && speed3 > 0) {
+        const time3 = distance / speed3;
+        results.push({ speed: speed3, time: formatTime(time3) });
+    }
+
+    const resultsTableBody = document.getElementById('results-table-body-travel-time');
+    resultsTableBody.innerHTML = '';
+
+    results.forEach(result => {
+        const row = document.createElement('tr');
+        const speedCell = document.createElement('td');
+        const timeCell = document.createElement('td');
+        speedCell.textContent = `Przy prędkości ${result.speed} km/h`;
+        timeCell.textContent = result.time;
+        row.appendChild(speedCell);
+        row.appendChild(timeCell);
+        resultsTableBody.appendChild(row);
+    });
+});
+function formatTime(hours) {
+  const totalSeconds = hours * 3600;
+  const hrs = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  const secs = Math.floor(totalSeconds % 60);
+  return `${hrs} godz. ${mins} min. ${secs} s.`;
+}
+document.getElementById('speed-calculator').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const distance = parseFloat(document.getElementById('distance-speed').value);
+  const travelTimeHours = parseFloat(document.getElementById('travelTimeHours').value) || 0;
+  const travelTimeMinutes = parseFloat(document.getElementById('travelTimeMinutes').value) || 0;
+  const stopTimeHours = parseFloat(document.getElementById('stopTimeHours').value) || 0;
+  const stopTimeMinutes = parseFloat(document.getElementById('stopTimeMinutes').value) || 0;
+
+  const travelTime = travelTimeHours + (travelTimeMinutes / 60);
+  const stopTime = stopTimeHours + (stopTimeMinutes / 60);
+
+  if (!isNaN(distance) && !isNaN(travelTime) && travelTime > 0) {
+      const totalTime = travelTime + stopTime;
+      const averageSpeed = distance / totalTime;
+
+      const resultsTableBody = document.getElementById('results-table-body-speed');
+      resultsTableBody.innerHTML = '';
+
+      const resultRow1 = document.createElement('tr');
+      const descriptionCell1 = document.createElement('td');
+      const valueCell1 = document.createElement('td');
+      descriptionCell1.textContent = 'Średnia prędkość uwzględniając czas postoju';
+      valueCell1.textContent = `${averageSpeed.toFixed(2)} km/h`;
+      resultRow1.appendChild(descriptionCell1);
+      resultRow1.appendChild(valueCell1);
+
+      resultsTableBody.appendChild(resultRow1);
+
+      if (stopTime > 0) {
+          const actualTravelSpeed = distance / travelTime;
+
+          const resultRow2 = document.createElement('tr');
+          const descriptionCell2 = document.createElement('td');
+          const valueCell2 = document.createElement('td');
+          descriptionCell2.textContent = 'Średnia prędkość bez uwzględniania czasu postoju';
+          valueCell2.textContent = `${actualTravelSpeed.toFixed(2)} km/h`;
+          resultRow2.appendChild(descriptionCell2);
+          resultRow2.appendChild(valueCell2);
+
+          resultsTableBody.appendChild(resultRow2);
+      }
+  }
+});
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('fuel-calculator');
+  const resultsTableBody = document.getElementById('results-table-body-fuel');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Pobierz dane z formularza
+    const price = parseFloat(document.getElementById('price').value);
+    const currency = document.getElementById('currency').value;
+    const distance = parseFloat(document.getElementById('distance-fuel').value);
+    const fuel = parseFloat(document.getElementById('fuel').value);
+
+    console.log('Przejechane kilometry (po pobraniu z formularza):', distance);
+    console.log('Cena paliwa:', price);
+    console.log('Przejechane kilometry:', distance);
+    console.log('Ilość paliwa:', fuel);
+    // Oblicz średnie zużycie paliwa na 100 km
+    const consumption = (fuel / distance) * 100;
+
+    // Oblicz koszt spalonego paliwa
+    const fuelCost = price * fuel;
+
+    // Oblicz koszt przejechania 1 km
+    const costPerKm = fuelCost / distance;
+
+    // Wyświetl wyniki w tabeli
+    resultsTableBody.innerHTML = `
+      <tr>
+        <td>Średnie zużycie paliwa na 100 km:</td>
+        <td>${consumption.toFixed(2)} L/100km</td>
+      </tr>
+      <tr>
+        <td>Koszt spalonego paliwa:</td>
+        <td>${fuelCost.toFixed(2)} ${currency}</td>
+      </tr>
+      <tr>
+        <td>Koszt przejechania 1 km:</td>
+        <td>${costPerKm.toFixed(2)} ${currency}/km</td>
+      </tr>
+    `;
+  });
+});
 </script>
 
 {% endblock %}
