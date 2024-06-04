@@ -31,13 +31,17 @@
     <div class="row">
       <!-- Column 1: Przeliczniki danych -->
       <div class="col-md-6">
-        <h2>Przeliczniki danych</h2>
+        <div class="card mb-3">
+          <div class="card-header text-center">
+        <h2>PRZELICZNIKI DANYCH <i class="fa-solid fa-calculator"></i> </h2>
+          </div>
+        </div>
         
         <!-- Power Converter Card -->
         <div class="card mb-3">
-          <div class="card-header">
+          <div class="card-header text-bg-secondary text-center">
             <h3>Przelicznik jednostek mocy</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#powerConverter" aria-expanded="false" aria-controls="powerConverter">
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#powerConverter" aria-expanded="false" aria-controls="powerConverter">
               Rozwiń
             </button>
           </div>
@@ -80,9 +84,9 @@
         
         <!-- Speed Converter Card -->
         <div class="card mb-3">
-          <div class="card-header">
-            <h3>Kalkulator prędkości</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#speedConverter" aria-expanded="false" aria-controls="speedConverter">
+          <div class="card-header text-bg-secondary text-center">
+            <h3>Przelicznik jednostek prędkości</h3>
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#speedConverter" aria-expanded="false" aria-controls="speedConverter">
               Rozwiń
             </button>
           </div>
@@ -124,10 +128,10 @@
         </div>
   
         <!-- Pressure Converter Card -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <h3>Kalkulator ciśnienia</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#pressureConverter" aria-expanded="false" aria-controls="pressureConverter">
+        <div class="card text-bg-secondary mb-3">
+          <div class="card-header text-center">
+            <h3>Przelicznik jednostek ciśnienia</h3>
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#pressureConverter" aria-expanded="false" aria-controls="pressureConverter">
               Rozwiń
             </button>
           </div>
@@ -171,9 +175,9 @@
   
         <!-- Torque Converter Card -->
         <div class="card mb-3">
-          <div class="card-header">
-            <h3>Kalkulator momentu obrotowego</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#torqueConverter" aria-expanded="false" aria-controls="torqueConverter">
+          <div class="card-header text-bg-secondary text-center">
+            <h3>Przelicznik jednostek momentu obrotowego</h3>
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#torqueConverter" aria-expanded="false" aria-controls="torqueConverter">
               Rozwiń
             </button>
           </div>
@@ -214,9 +218,9 @@
         
       <!-- Width Converter Card -->
       <div class="card mb-3">
-        <div class="card-header">
-          <h3>Kalkulator długości</h3>
-          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#lengthConverter" aria-expanded="false" aria-controls="lengthConverter">
+        <div class="card-header text-bg-secondary text-center">
+          <h3>Przelicznik jednostek długości</h3>
+          <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#lengthConverter" aria-expanded="false" aria-controls="lengthConverter">
             Rozwiń
           </button>
         </div>
@@ -257,17 +261,22 @@
   
       <!-- Column 2: Użytkowanie auta -->
       <div class="col-md-6">
-        <h2>Użytkowanie auta</h2>
         <div class="card mb-3">
-          <div class="card-header">
+          <div class="card-header text-center">
+        <h2>UŻYTKOWANIE AUTA <i class="fa-solid fa-car"></i></h2>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-header  text-bg-secondary text-center">
             <h3>Kalkulator czasu podróży</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#travel-time-calculator" aria-expanded="false" aria-controls="travel-time-calculator">
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#travel-time-calculator" aria-expanded="false" aria-controls="travel-time-calculator">
               Rozwiń
             </button>
           </div>
           <div class="collapse" id="travel-time-calculator">
             <div class="card-body">
               <form id="travel-time-calculator">
+                <div class="mb-3">
                 <div class="form-group">
                   <label for="distance">Odległość (km):</label>
                   <input type="number" class="form-control" id="distance" placeholder="Wprowadź odległość w kilometrach" required>
@@ -284,7 +293,8 @@
                   <label for="speed3">Średnia prędkość 3 (km/h) (opcjonalnie):</label>
                   <input type="number" class="form-control" id="speed3" placeholder="Wprowadź prędkość w km/h">
                 </div>
-                <button type="submit" class="btn btn-primary">Oblicz</button>
+              </div>
+                <button type="submit" class="btn btn-warning w-100">Przelicz</button>
               </form>
               <h3>Wyniki:</h3>
               <table class="table">
@@ -302,15 +312,16 @@
         </div>
         
         <div class="card mb-3">
-          <div class="card-header">
+          <div class="card-header text-bg-secondary text-center">
             <h3>Kalkulator średniej prędkości</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#speedCalculator" aria-expanded="false" aria-controls="speedCalculator">
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#speedCalculator" aria-expanded="false" aria-controls="speedCalculator">
               Rozwiń
             </button>
           </div>
           <div class="collapse" id="speedCalculator">
             <div class="card-body">
               <form id="speed-calculator">
+                <div class="mb-3">
                 <div class="form-group">
                   <label for="distance-speed">Odległość (km):</label>
                   <input type="number" class="form-control" id="distance-speed" placeholder="Wprowadź odległość w kilometrach" required>
@@ -333,6 +344,7 @@
                     <span class="input-group-text">min.</span>
                   </div>
                 </div>
+              </div>
                 <button type="submit" class="btn btn-warning w-100">Przelicz</button>
               </form>
               <h3>Wyniki:</h3>
@@ -350,14 +362,15 @@
           </div>
         </div>
         <div class="card mb-3">
-          <div class="card-header">
+          <div class="card-header text-bg-secondary text-center">
             <h3>Kalkulator średniego zużycia paliwa</h3>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#fuelCalculator" aria-expanded="false" aria-controls="fuelCalculator">
+            <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#fuelCalculator" aria-expanded="false" aria-controls="fuelCalculator">
               Rozwiń
             </button>
           </div>
           <div class="collapse" id="fuelCalculator">
             <div class="card-body">
+              <div class="mb-3">
               <form id="fuel-calculator">
                 <div class="form-group">
                   <label for="price">Cena paliwa:</label>
@@ -379,6 +392,7 @@
                   <label for="fuel">Ilość paliwa (l):</label>
                   <input type="number" min="0.01" step="0.01" class="form-control" id="fuel" placeholder="Wprowadź zużytą ilość paliwa w litrach" required>
                 </div>
+              </div>
                 <button type="submit" class="btn btn-warning w-100">Przelicz</button>
               </form>
               <h3>Wyniki:</h3>
@@ -395,6 +409,102 @@
             </div>
           </div>
         </div>
+<!-- Kalkulator kosztów spalania -->
+<div class="card mb-3">
+  <div class="card-header text-bg-secondary text-center">
+      <h3>Kalkulator kosztów spalania</h3>
+      <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#fuelCostCalculator" aria-expanded="false" aria-controls="fuelCostCalculator">
+          Rozwiń
+      </button>
+  </div>
+  <div class="collapse" id="fuelCostCalculator">
+      <div class="card-body">
+        <div class="mb-3">
+          <form id="fuel-cost-calculator">
+              <div class="form-group">
+                  <label for="tripDistance">Długość trasy (km):</label>
+                  <input type="number" class="form-control" id="tripDistance" placeholder="Wprowadź długość trasy w kilometrach" required>
+              </div>
+              <div class="form-group">
+                  <label for="fuelConsumption">Średnie spalanie paliwa (l/100km):</label>
+                  <input type="number" min="0.1" step="0.1" class="form-control" id="fuelConsumption" placeholder="Wprowadź średnie spalanie paliwa" required>
+              </div>
+              <div class="form-group">
+                  <label for="fuelPrice">Cena za litr paliwa (zł):</label>
+                  <input type="number" min="0.01" step="0.01" class="form-control" id="fuelPrice" placeholder="Wprowadź cenę za litr paliwa" required>
+              </div>
+            </div>
+              <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+          </form>
+          <h3>Wyniki:</h3>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th scope="col">Opis</th>
+                      <th scope="col">Wynik</th>
+                  </tr>
+              </thead>
+              <tbody id="results-table-body-fuel-cost">
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+<!-- Kalkulator opłacalności montażu instalacji LPG -->
+<div class="card mb-3">
+  <div class="card-header text-bg-secondary text-center">
+      <h3>Kalkulator opłacalności montażu instalacji LPG</h3>
+      <button class="btn btn-warning w-50" type="button" data-bs-toggle="collapse" data-bs-target="#lpgCalculator" aria-expanded="false" aria-controls="lpgCalculator">
+          Rozwiń
+      </button>
+  </div>
+  <div class="collapse" id="lpgCalculator">
+      <div class="card-body">
+        <div class="mb-3">
+          <form id="lpg-cost-calculator">
+              <div class="form-group">
+                  <label for="petrolPrice">Cena benzyny (zł/l):</label>
+                  <input type="number" min="0.01" step="0.01" class="form-control" id="petrolPrice" placeholder="Wprowadź cenę benzyny" required>
+              </div>
+              <div class="form-group">
+                  <label for="lpgPrice">Cena LPG (zł/l):</label>
+                  <input type="number" min="0.01" step="0.01" class="form-control" id="lpgPrice" placeholder="Wprowadź cenę LPG" required>
+              </div>
+              <div class="form-group">
+                  <label for="monthlyMileage">Średni miesięczny przebieg (km):</label>
+                  <input type="number" class="form-control" id="monthlyMileage" placeholder="Wprowadź średni miesięczny przebieg" required>
+              </div>
+              <div class="form-group">
+                  <label for="petrolConsumption">Średnie zużycie benzyny (l/100km):</label>
+                  <input type="number" min="0.1" step="0.1" class="form-control" id="petrolConsumption" placeholder="Wprowadź średnie zużycie benzyny" required>
+              </div>
+              <div class="form-group">
+                  <label for="lpgConsumptionIncrease">Średnie zużycie LPG większe o (%) :</label>
+                  <input type="number" class="form-control" id="lpgConsumptionIncrease" placeholder="Wprowadź procentowe zwiększenie zużycia LPG" required>
+              </div>
+              <div class="form-group">
+                  <label for="installationCost">Koszt montażu instalacji LPG (zł):</label>
+                  <input type="number" class="form-control" id="installationCost" placeholder="Wprowadź koszt montażu instalacji LPG" required>
+              </div>
+            </div>
+              <button type="submit" class="btn btn-warning w-100">Przelicz</button>
+          </form>
+          <h3>Wyniki:</h3>
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th scope="col">Opis</th>
+                      <th scope="col">Wynik</th>
+                  </tr>
+              </thead>
+              <tbody id="results-table-body-lpg-cost">
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
 
 <script>
   document.getElementById('powerForm').addEventListener('submit', function(event) {
@@ -790,6 +900,48 @@ document.addEventListener('DOMContentLoaded', function() {
       </tr>
     `;
   });
+});
+// Kalkulator kosztów spalania
+document.getElementById('fuel-cost-calculator').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const tripDistance = parseFloat(document.getElementById('tripDistance').value);
+  const fuelConsumption = parseFloat(document.getElementById('fuelConsumption').value).toFixed(2);
+  const fuelPrice = parseFloat(document.getElementById('fuelPrice').value).toFixed(2);
+
+  const fuelUsed = (tripDistance * fuelConsumption) / 100;
+  const cost = fuelUsed * fuelPrice;
+
+  const resultsTableBody = document.getElementById('results-table-body-fuel-cost');
+  resultsTableBody.innerHTML = `
+      <tr><td>Koszt spalania na odcinku ${tripDistance} km</td><td>${cost.toFixed(2)} zł</td></tr>
+  `;
+});
+
+// Kalkulator opłacalności montażu instalacji LPG
+document.getElementById('lpg-cost-calculator').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const petrolPrice = parseFloat(document.getElementById('petrolPrice').value).toFixed(2);
+  const lpgPrice = parseFloat(document.getElementById('lpgPrice').value).toFixed(2);
+  const monthlyMileage = parseFloat(document.getElementById('monthlyMileage').value);
+  const petrolConsumption = parseFloat(document.getElementById('petrolConsumption').value).toFixed(2);
+  const lpgConsumptionIncrease = parseFloat(document.getElementById('lpgConsumptionIncrease').value).toFixed(2);
+  const installationCost = parseFloat(document.getElementById('installationCost').value).toFixed(2);
+
+  const petrolCostPer100km = petrolPrice * petrolConsumption;
+  const lpgConsumption = petrolConsumption * (1 + (lpgConsumptionIncrease / 100));
+  const lpgCostPer100km = lpgConsumption * lpgPrice;
+  const savingsPer100km = petrolCostPer100km - lpgCostPer100km;
+  const monthlySavings = savingsPer100km * (monthlyMileage / 100);
+  const breakEvenDistance = (installationCost / savingsPer100km) * 100;
+
+  const resultsTableBody = document.getElementById('results-table-body-lpg-cost');
+  resultsTableBody.innerHTML = `
+      <tr><td>Koszt pokonania 100 km na benzynie</td><td>${petrolCostPer100km.toFixed(2)} zł</td></tr>
+      <tr><td>Koszt pokonania 100 km na LPG</td><td>${lpgCostPer100km.toFixed(2)} zł</td></tr>
+      <tr><td>Oszczędność na 100 km</td><td>${savingsPer100km.toFixed(2)} zł</td></tr>
+      <tr><td>Oszczędność miesięczna</td><td>${monthlySavings.toFixed(2)} zł</td></tr>
+      <tr><td>Zwrot kosztów instalacji po</td><td>${breakEvenDistance.toFixed(2)} km</td></tr>
+  `;
 });
 </script>
 
