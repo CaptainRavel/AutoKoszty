@@ -2,7 +2,7 @@ from django.db import models
 
 class CarMake(models.Model):
     name = models.CharField(
-        max_length=255, 
+        max_length=200, 
         unique=True, 
         blank=False,  # Domyślnie False, ale jawnie podajemy
         null=False    # Domyślnie False, ale jawnie podajemy
@@ -24,7 +24,7 @@ class CarModel(models.Model):
         null=False,    # Pole nie może przechowywać wartości NULL w bazie danych
     )
     name = models.CharField(
-        max_length=255, 
+        max_length=200, 
         blank=False,  # Pole nie może być puste w formularzach
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
@@ -46,15 +46,17 @@ class CarGeneration(models.Model):
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
     name = models.CharField(
-        max_length=255, 
+        max_length=200, 
         blank=False,  # Pole nie może być puste w formularzach
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
-    year_begin = models.PositiveIntegerField(
-        blank=False,  # Pole nie może być puste w formularzach
-        null=False    # Pole nie może przechowywać wartości NULL w bazie danych
+    year_begin = models.CharField(
+        max_length=200,
+        blank=True,  # Pole nie może być puste w formularzach
+        null=True    # Pole nie może przechowywać wartości NULL w bazie danych
     )
-    year_end = models.PositiveIntegerField(
+    year_end = models.CharField(
+        max_length=200,
         blank=True,   # Pole może być puste w formularzach, np. dla obecnie produkowanych generacji
         null=True     # Pole może przechowywać wartość NULL w bazie danych
     )
@@ -83,7 +85,7 @@ class CarSerie(models.Model):
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
     name = models.CharField(
-        max_length=255, 
+        max_length=200, 
         blank=False,  # Pole nie może być puste w formularzach
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
@@ -113,15 +115,17 @@ class CarTrim(models.Model):
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
     name = models.CharField(
-        max_length=255, 
+        max_length=200, 
         blank=False,  # Pole nie może być puste w formularzach
         null=False    # Pole nie może przechowywać wartości NULL w bazie danych
     )
-    start_production_year = models.PositiveIntegerField(
-        blank=False,  # Pole nie może być puste w formularzach
-        null=False    # Pole nie może przechowywać wartości NULL w bazie danych
+    start_production_year = models.CharField(
+        max_length=200,
+        blank=True,  # Pole nie może być puste w formularzach
+        null=True    # Pole nie może przechowywać wartości NULL w bazie danych
     )
-    end_production_year = models.PositiveIntegerField(
+    end_production_year = models.CharField(
+        max_length=200,
         blank=True,   # Pole może być puste w formularzach, jeśli nie jest znany
         null=True     # Pole może przechowywać wartość NULL w bazie danych
     )
@@ -133,53 +137,29 @@ class CarTrim(models.Model):
         verbose_name = "Car Trim"
         verbose_name_plural = "Car Trims"
         ordering = ['model', 'serie', 'start_production_year']
-        
-class CarSpecValue(models.Model):
+
+class CarSpec(models.Model):
     trim = models.ForeignKey(
         'CarTrim', 
         on_delete=models.CASCADE, 
-        related_name='spec_values', 
-        blank=False,  
-        null=False    
-    )
-    spec = models.ForeignKey(
-        'CarSpec',  
-        on_delete=models.CASCADE, 
-        related_name='values',  # Zmieniamy related_name na 'values'
+        related_name='specs', 
         blank=False,  
         null=False    
     )
     value = models.CharField(
-        max_length=255, 
-        blank=False,  
-        null=False    
+        max_length=200, 
+        blank=True,  
+        null=True    
     )
     unit = models.CharField(
-        max_length=255, 
-        blank=False,  
-        null=False    
+        max_length=200, 
+        blank=True,  
+        null=True    
     )
-
-    def __str__(self):
-        return f'{self.trim} - {self.spec}'
-
-    class Meta:
-        verbose_name = "Car Spec Value"
-        verbose_name_plural = "Car Spec Values"
-        ordering = ['trim', 'spec']
-
-class CarSpec(models.Model):
-    spec_value = models.ForeignKey(
-        'CarSpecValue', 
-        on_delete=models.CASCADE, 
-        related_name='spec_values',  # Zmieniamy related_name na 'spec_values'
-        blank=False,  
-        null=False    
-    )
-    name = models.CharField(
-        max_length=255, 
-        blank=False,  
-        null=False    
+    spec_name = models.CharField(
+        max_length=200, 
+        blank=True,  
+        null=True    
     )
 
     def __str__(self):
@@ -188,4 +168,4 @@ class CarSpec(models.Model):
     class Meta:
         verbose_name = "Car Spec"
         verbose_name_plural = "Car Specs"
-        ordering = ['name']
+        ordering = ['trim']

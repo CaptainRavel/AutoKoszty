@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpecValue
+from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim
 from .forms import CarSelectionForm
 
 # Create your views here.

@@ -12,11 +12,11 @@ html {
 }
 
 .carousel-inner {
-  height: 400px; /* Ustaw całkowitą wysokość karuzeli */
+  height: 500px; /* Ustaw całkowitą wysokość karuzeli */
 }
 
 .carousel-item img {
-  height: 400px; /* Ustaw wysokość obrazków */
+  height: 500px; /* Ustaw wysokość obrazków */
   width: 100%;   /* Dopasuj szerokość obrazków do szerokości kontenera */
   object-fit: cover; 
 }
@@ -26,7 +26,7 @@ html {
   bottom: 0; /* Umieść napisy na dole slajdu */
   left: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.6); /* Opcjonalne tło dla lepszej czytelności */
+  background-color: rgba(255, 255, 255, 0.85); /* Opcjonalne tło dla lepszej czytelności */
   color: white; /* Kolor tekstu */
   padding: 10px; /* Padding dla tekstu */
   height: 200px; /* Ustaw wysokość kontenera napisów */
