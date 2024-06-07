@@ -46,6 +46,7 @@ def load_specs(request):
     return JsonResponse(list(specs.values('spec_name', 'value', 'unit')), safe=False)
 
 def login_view(request):
+    invalid = False  # Domyślnie ustawiamy zmienną invalid na False
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
@@ -55,9 +56,10 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 return redirect('home_page')  # Przekieruj na stronę po zalogowaniu
+        invalid = True  # Jeśli logowanie nie powiodło się, ustaw invalid na True
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form, 'invalid': invalid})  # Przesyłamy invalid do szablonu
 
 def logout_view(request):
     logout(request)

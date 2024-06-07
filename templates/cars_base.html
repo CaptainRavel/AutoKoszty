@@ -11,58 +11,70 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h1 class="card-title">Wybierz pojazd z bazy:</h1>
+            <h2 class="card-title text-center">WYBIERZ POJAZD</h2>
             <form method="post" class="mt-4">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="id_make">MARKA</label>
+                <div class="form-group text-center">
+                    <label for="id_make "><h4>MARKA</h4></label>
                     <select class="form-select" id="id_make" name="make">
                         {% for choice in form.make.field.choices %}
-                            <option value="{{ choice.0 }}" {% if choice.0 == form.make.value %} selected {% endif %}>{{ choice.1 }}</option>
+                            {% if forloop.first %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.make.value %} selected {% endif %}>{{ choice.1 }}</option>
+                            {% else %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="id_model">MODEL</label>
+                <div class="form-group text-center">
+                    <label for="id_model"><h4>MODEL</h4></label>
                     <select class="form-select" id="id_model" name="model">
+                        <option value="">----------</option>
                         {% for choice in form.model.field.choices %}
                             <option value="{{ choice.0 }}" {% if choice.0 == form.model.value %} selected {% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="id_generation">GENERACJA</label>
+                <div class="form-group text-center">
+                    <label for="id_generation"><h4>GENERACJA</h4></label>
                     <select class="form-select" id="id_generation" name="generation">
+                        <option value="">----------</option>
                         {% for choice in form.generation.field.choices %}
                             <option value="{{ choice.0 }}" {% if choice.0 == form.generation.value %} selected {% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="id_serie">SERIA</label>
+                <div class="form-group text-center">
+                    <label for="id_serie"><h4>NADWOZIE</h4></label>
                     <select class="form-select" id="id_serie" name="serie">
+                        <option value="">----------</option>
                         {% for choice in form.serie.field.choices %}
                             <option value="{{ choice.0 }}" {% if choice.0 == form.serie.value %} selected {% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="id_trim">SILNIK</label>
+                <div class="form-group text-center">
+                    <label for="id_trim"><h4>SILNIK</h4></label>
                     <select class="form-select" id="id_trim" name="trim">
+                        <option value="">----------</option>
                         {% for choice in form.trim.field.choices %}
                             <option value="{{ choice.0 }}" {% if choice.0 == form.trim.value %} selected {% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </div>
-<h2 class="mt-4">Specyfikacja</h2>
-<div id="specs" class="container mt-3">
-    <!-- Dane specyfikacji zostaną tutaj załadowane -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="card-title text-center">SPECYFIKACJA</h2>
+        <div id="specs" class="container mt-3">
+            <!-- Dane specyfikacji zostaną tutaj załadowane -->
+        </div>
+    </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         console.log('Document ready, jQuery loaded.');
@@ -78,9 +90,9 @@
 
             $.each(specs, function (index, spec) {
                 var row = $('<tr>');
-                row.append($('<td>').text(spec.spec_name));
-                row.append($('<td>').text(spec.value));
-                row.append($('<td>').text(spec.unit));
+                row.append($('<td>').text(spec.spec_name).css('width', '25%'));
+                row.append($('<td>').text(spec.value).css('text-align', 'right'));
+                row.append($('<td>').text(spec.unit).css('text-align', 'left'));
                 tableBody.append(row);
             });
 
@@ -91,119 +103,100 @@
             return card;
         }
 
-        $("#id_make").change(function () {
-            var url = "{% url 'ajax_load_models' %}";
-            var makeId = $(this).val();
-            console.log('Selected Make ID:', makeId);
+        function resetForm() {
+            $("#id_model").html('<option value="">----------</option>');
+            $("#id_generation").html('<option value="">----------</option>');
+            $("#id_serie").html('<option value="">----------</option>');
+            $("#id_trim").html('<option value="">----------</option>');
+            $("#specs").empty();
+        }
 
+        function loadModels(makeId) {
+            var url = "{% url 'ajax_load_models' %}";
             $.ajax({
                 url: url,
-                data: {
-                    'make': makeId
-                },
+                data: { 'make': makeId },
                 success: function (data) {
-                    console.log('AJAX request to:', url, 'with data:', { 'make': makeId });
-                    $("#id_model").html('<option value="">Select Model</option>');
-                    $("#id_generation").html('<option value="">Select Generation</option>');
-                    $("#id_serie").html('<option value="">Select Serie</option>');
-                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    resetForm();
                     $.each(data, function (key, value) {
                         $("#id_model").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
-                    console.log('Models loaded:', data);
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
                 }
             });
-        });
+        }
 
-        $("#id_model").change(function () {
+        function loadGenerations(modelId) {
             var url = "{% url 'ajax_load_generations' %}";
-            var modelId = $(this).val();
-            console.log('Selected Model ID:', modelId);
-
             $.ajax({
                 url: url,
-                data: {
-                    'model': modelId
-                },
+                data: { 'model': modelId },
                 success: function (data) {
-                    console.log('AJAX request to:', url, 'with data:', { 'model': modelId });
-                    $("#id_generation").html('<option value="">Select Generation</option>');
-                    $("#id_serie").html('<option value="">Select Serie</option>');
-                    $("#id_trim").html('<option value="">Select Trim</option>');
-                    $.each(data, function (key, value) {
-                        $("#id_generation").append('<option value="' + value.id + '">' + value.name + '</option>');
-                    });
-                    console.log('Generations loaded:', data);
+                    $("#id_generation").html('<option value="">----------</option>');
+                    $("#id_serie").html('<option value="">----------</option>');
+                    $("#id_trim").html('<option value="">----------</option>');
+                    if (data.length > 0) {
+                        $.each(data, function (key, value) {
+                            $("#id_generation").append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    } else {
+                        loadSeriesOrTrims(modelId);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
                 }
             });
-        });
+        }
 
-        $("#id_generation").change(function () {
+        function loadSeriesOrTrims(generationOrModelId) {
             var url = "{% url 'ajax_load_series' %}";
-            var generationId = $(this).val();
-            console.log('Selected Generation ID:', generationId);
-
             $.ajax({
                 url: url,
-                data: {
-                    'generation': generationId
-                },
+                data: { 'generation': generationOrModelId },
                 success: function (data) {
-                    console.log('AJAX request to:', url, 'with data:', { 'generation': generationId });
-                    $("#id_serie").html('<option value="">Select Serie</option>');
-                    $("#id_trim").html('<option value="">Select Trim</option>');
-                    $.each(data, function (key, value) {
-                        $("#id_serie").append('<option value="' + value.id + '">' + value.name + '</option>');
-                    });
-                    console.log('Series loaded:', data);
+                    $("#id_serie").html('<option value="">----------</option>');
+                    $("#id_trim").html('<option value="">----------</option>');
+                    if (data.length > 0) {
+                        $.each(data, function (key, value) {
+                            $("#id_serie").append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    } else {
+                        loadTrims(generationOrModelId);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
                 }
             });
-        });
+        }
 
-        $("#id_serie").change(function () {
+        function loadTrims(seriesOrModelId) {
             var url = "{% url 'ajax_load_trims' %}";
-            var serieId = $(this).val();
-            console.log('Selected Serie ID:', serieId);
-
             $.ajax({
                 url: url,
-                data: {
-                    'serie': serieId
-                },
+                data: { 'serie': seriesOrModelId },
                 success: function (data) {
-                    console.log('AJAX request to:', url, 'with data:', { 'serie': serieId });
-                    $("#id_trim").html('<option value="">Select Trim</option>');
+                    $("#id_trim").html('<option value="">----------</option>');
                     $.each(data, function (key, value) {
                         $("#id_trim").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
-                    console.log('Trims loaded:', data);
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX request failed:', status, error);
                 }
             });
-        });
+        }
 
-        $("#id_trim").change(function () {
+        function loadSpecs(trimId) {
             var url = "{% url 'ajax_load_specs' %}";
-            var trimId = $(this).val();
-
             $.ajax({
                 url: url,
                 data: { 'trim': trimId },
                 success: function (data) {
-                    $("#specs").empty(); // Usuwanie poprzednich danych
-
-                    // Tworzenie karty z danymi specyfikacji
+                    $("#specs").empty();
                     var specsCard = createSpecsCard(data);
                     $("#specs").append(specsCard);
                 },
@@ -211,6 +204,58 @@
                     console.error('AJAX request failed:', status, error);
                 }
             });
+        }
+
+        $("#id_make").change(function () {
+            var makeId = $(this).val();
+            resetForm();
+            if (makeId) {
+                loadModels(makeId);
+            }
+        });
+
+        $("#id_model").change(function () {
+            var modelId = $(this).val();
+            $("#id_generation").html('<option value="">----------</option>');
+            $("#id_serie").html('<option value="">----------</option>');
+            $("#id_trim").html('<option value="">----------</option>');
+            $("#specs").empty();
+            if (modelId) {
+                loadGenerations(modelId);
+            }
+        });
+
+        $("#id_generation").change(function () {
+            var generationId = $(this).val();
+            $("#id_serie").html('<option value="">----------</option>');
+            $("#id_trim").html('<option value="">----------</option>');
+            $("#specs").empty();
+            if (generationId) {
+                loadSeriesOrTrims(generationId);
+            } else {
+                var modelId = $("#id_model").val();
+                loadSeriesOrTrims(modelId);
+            }
+        });
+
+        $("#id_serie").change(function () {
+            var serieId = $(this).val();
+            $("#id_trim").html('<option value="">----------</option>');
+            $("#specs").empty();
+            if (serieId) {
+                loadTrims(serieId);
+            } else {
+                var generationId = $("#id_generation").val();
+                loadTrims(generationId);
+            }
+        });
+        
+        $("#id_trim").change(function () {
+            var trimId = $(this).val();
+            $("#specs").empty();
+            if (trimId) {
+                loadSpecs(trimId);
+            }
         });
     });
 </script>
