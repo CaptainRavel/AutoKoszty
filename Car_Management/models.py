@@ -163,7 +163,7 @@ class CarSpec(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.spec_name
 
     class Meta:
         verbose_name = "Car Spec"

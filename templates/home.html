@@ -3,29 +3,6 @@
 {% block title %}Strona główna{% endblock %}
 
 {% block website_body %}
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home_page' %}"><button type="button" class="btn btn-dark"><img src="{% static 'img/logo.png' %}" alt="HOME" class="img-fluid" style="max-width: 150px;"></button></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'cars_base' %}"><button type="button" class="btn btn-light">BAZA AUT <i class="fa-solid fa-car-rear"></i></button></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'calculators' %}"><button type="button" class="btn btn-light">KALKULATORY <i class="fa-solid fa-calculator"></i></button></a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href=""><button type="button" class="btn btn-light">ZALOGUJ <i class="fa-solid fa-right-to-bracket"></i></button></a>
-        </li>
-          </ul>
-    </div>
-  </div>
-</nav>
 <div id="carouselExampleDark" class="carousel carousel-dark slide">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

@@ -1,33 +1,100 @@
 {% extends "main.html" %}
 {% load static %}
 
-{% block title %}Strona główna{% endblock %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block title %}Baza Pojazdów{% endblock %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{% endblock %}
+
 {% block website_body %}
-<h1>Select Car Details</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.make.label }}: {{ form.make }}
-        <br>
-        {{ form.model.label }}: {{ form.model }}
-        <br>
-        {{ form.generation.label }}: {{ form.generation }}
-        <br>
-        {{ form.serie.label }}: {{ form.serie }}
-        <br>
-        {{ form.trim.label }}: {{ form.trim }}
-        <br>
-    </form>
-
-    <h2>Specifications</h2>
-    <div id="specs">
-        <!-- Specyfikacje zostaną tutaj załadowane -->
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Wybierz pojazd z bazy:</h1>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_make">MARKA</label>
+                    <select class="form-select" id="id_make" name="make">
+                        {% for choice in form.make.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.make.value %} selected {% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_model">MODEL</label>
+                    <select class="form-select" id="id_model" name="model">
+                        {% for choice in form.model.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.model.value %} selected {% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_generation">GENERACJA</label>
+                    <select class="form-select" id="id_generation" name="generation">
+                        {% for choice in form.generation.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.generation.value %} selected {% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_serie">SERIA</label>
+                    <select class="form-select" id="id_serie" name="serie">
+                        {% for choice in form.serie.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.serie.value %} selected {% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_trim">SILNIK</label>
+                    <select class="form-select" id="id_trim" name="trim">
+                        {% for choice in form.trim.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.trim.value %} selected {% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
+</div>
+<h2 class="mt-4">Specyfikacja</h2>
+<div id="specs" class="container mt-3">
+    <!-- Dane specyfikacji zostaną tutaj załadowane -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log('Document ready, jQuery loaded.');
+        console.log('$:', $);
+        console.log('$.ajax:', $.ajax);
 
-    <script type="text/javascript">
+        function createSpecsCard(specs) {
+            var card = $('<div>').addClass('card mt-3');
+            var cardBody = $('<div>').addClass('card-body');
+
+            var table = $('<table>').addClass('table');
+            var tableBody = $('<tbody>');
+
+            $.each(specs, function (index, spec) {
+                var row = $('<tr>');
+                row.append($('<td>').text(spec.spec_name));
+                row.append($('<td>').text(spec.value));
+                row.append($('<td>').text(spec.unit));
+                tableBody.append(row);
+            });
+
+            table.append(tableBody);
+            cardBody.append(table);
+            card.append(cardBody);
+
+            return card;
+        }
+
         $("#id_make").change(function () {
             var url = "{% url 'ajax_load_models' %}";
             var makeId = $(this).val();
+            console.log('Selected Make ID:', makeId);
 
             $.ajax({
                 url: url,
@@ -35,6 +102,7 @@
                     'make': makeId
                 },
                 success: function (data) {
+                    console.log('AJAX request to:', url, 'with data:', { 'make': makeId });
                     $("#id_model").html('<option value="">Select Model</option>');
                     $("#id_generation").html('<option value="">Select Generation</option>');
                     $("#id_serie").html('<option value="">Select Serie</option>');
@@ -42,6 +110,10 @@
                     $.each(data, function (key, value) {
                         $("#id_model").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
+                    console.log('Models loaded:', data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
                 }
             });
         });
@@ -49,6 +121,7 @@
         $("#id_model").change(function () {
             var url = "{% url 'ajax_load_generations' %}";
             var modelId = $(this).val();
+            console.log('Selected Model ID:', modelId);
 
             $.ajax({
                 url: url,
@@ -56,12 +129,17 @@
                     'model': modelId
                 },
                 success: function (data) {
+                    console.log('AJAX request to:', url, 'with data:', { 'model': modelId });
                     $("#id_generation").html('<option value="">Select Generation</option>');
                     $("#id_serie").html('<option value="">Select Serie</option>');
                     $("#id_trim").html('<option value="">Select Trim</option>');
                     $.each(data, function (key, value) {
                         $("#id_generation").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
+                    console.log('Generations loaded:', data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
                 }
             });
         });
@@ -69,6 +147,7 @@
         $("#id_generation").change(function () {
             var url = "{% url 'ajax_load_series' %}";
             var generationId = $(this).val();
+            console.log('Selected Generation ID:', generationId);
 
             $.ajax({
                 url: url,
@@ -76,11 +155,16 @@
                     'generation': generationId
                 },
                 success: function (data) {
+                    console.log('AJAX request to:', url, 'with data:', { 'generation': generationId });
                     $("#id_serie").html('<option value="">Select Serie</option>');
                     $("#id_trim").html('<option value="">Select Trim</option>');
                     $.each(data, function (key, value) {
                         $("#id_serie").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
+                    console.log('Series loaded:', data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
                 }
             });
         });
@@ -88,6 +172,7 @@
         $("#id_serie").change(function () {
             var url = "{% url 'ajax_load_trims' %}";
             var serieId = $(this).val();
+            console.log('Selected Serie ID:', serieId);
 
             $.ajax({
                 url: url,
@@ -95,10 +180,15 @@
                     'serie': serieId
                 },
                 success: function (data) {
+                    console.log('AJAX request to:', url, 'with data:', { 'serie': serieId });
                     $("#id_trim").html('<option value="">Select Trim</option>');
                     $.each(data, function (key, value) {
                         $("#id_trim").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
+                    console.log('Trims loaded:', data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
                 }
             });
         });
@@ -109,17 +199,20 @@
 
             $.ajax({
                 url: url,
-                data: {
-                    'trim': trimId
-                },
+                data: { 'trim': trimId },
                 success: function (data) {
-                    $("#specs").html('');
-                    $.each(data, function (key, value) {
-                        $("#specs").append('<p>' + value.spec__name + ': ' + value.value + ' ' + value.unit + '</p>');
-                    });
+                    $("#specs").empty(); // Usuwanie poprzednich danych
+
+                    // Tworzenie karty z danymi specyfikacji
+                    var specsCard = createSpecsCard(data);
+                    $("#specs").append(specsCard);
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request failed:', status, error);
                 }
             });
         });
-    </script>
+    });
+</script>
 
 {% endblock %}

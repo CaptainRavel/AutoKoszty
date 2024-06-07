@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim
+from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpec
 from .forms import CarSelectionForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -40,5 +42,23 @@ def load_trims(request):
 
 def load_specs(request):
     trim_id = request.GET.get('trim')
-    specs = CarSpecValue.objects.filter(trim_id=trim_id).all()
-    return JsonResponse(list(specs.values('spec__name', 'value', 'unit')), safe=False)
+    specs = CarSpec.objects.filter(trim_id=trim_id).all()
+    return JsonResponse(list(specs.values('spec_name', 'value', 'unit')), safe=False)
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home_page')  # Przekieruj na stronę po zalogowaniu
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home_page')  # Przekieruj na stronę po wylogowaniu

@@ -19,13 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from Car_Management.views import home_page, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs
+from Car_Management.views import home_page, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs, login_view, logout_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_panel'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
     path('home/', home_page, name='home_page'),
     path('calculators/', calculators, name='calculators'),
     path('cars_base/', car_selection_view, name='cars_base'),
