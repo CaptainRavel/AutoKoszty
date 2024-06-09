@@ -4,6 +4,8 @@ from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpec
 from .forms import CarSelectionForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
+from .forms import UserRegisterForm
 
 # Create your views here.
 
@@ -64,3 +66,15 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home_page')  # Przekieruj na stronę po wylogowaniu
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('login')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})

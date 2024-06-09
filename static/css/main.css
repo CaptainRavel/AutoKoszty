@@ -1,5 +1,5 @@
 body {
-  background-color: #555555; /* Kolor tła */
+  background-color: #a0a0a0; /* Kolor tła */
   background-size: cover; /* Dopasowanie obrazu do całej strony */
   background-repeat: no-repeat; /* Brak powtarzania obrazu */
   background-position: center; /* Wyśrodkowanie obrazu tła */
@@ -29,7 +29,7 @@ html {
   background-color: rgba(255, 255, 255, 0.85); /* Opcjonalne tło dla lepszej czytelności */
   color: white; /* Kolor tekstu */
   padding: 10px; /* Padding dla tekstu */
-  height: 200px; /* Ustaw wysokość kontenera napisów */
+  height: 225px; /* Ustaw wysokość kontenera napisów */
   box-sizing: border-box; /* Upewnij się, że padding nie zmienia wysokości elementu */
 }
 
@@ -139,7 +139,6 @@ html {
 
 footer {
   position: relative;
-  background-color: #f8f9fa;
   padding: 20px 0;
 }
 
@@ -157,4 +156,27 @@ footer .float-end {
 
 footer p {
   margin: 0;
+}
+
+.custom-btn-color {
+  background-color: #a0a0a0; /* Twój niestandardowy kolor tła */
+  color: #000000; /* Kolor tekstu */
+  /* Dodatkowe style, takie jak margines, padding itp., jeśli są potrzebne */
+}
+.custom-btn-color:hover {
+  background-color: #d1d1d1; /* Nowy kolor tła po najechaniu myszką */
+  /* Dodatkowe style, takie jak zmiana koloru tekstu itp., jeśli są potrzebne */
+}
+
+.custom-background {
+  background-color: #434343; /* Dodaj swój własny kolor tła */
+  color: #ffffff; /* Kolor tekstu */
+}
+
+.custom-margin-bottom {
+  margin-bottom: 5rem;
+}
+
+.custom-margin-top {
+  margin-top: 10rem;
 }
