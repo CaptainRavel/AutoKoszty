@@ -180,3 +180,23 @@ footer p {
 .custom-margin-top {
   margin-top: 10rem;
 }
+
+.custom-card-img-top{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.card-equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card-body {
+  flex: 1 1 auto; /* To ensure the card body takes remaining space */
+}
+.card-content {
+  flex: 1 1 auto; /* Aby treść karty zajmowała resztę dostępnego miejsca */
+}
+.card-footer {
+  margin-top: auto; /* Aby stopka karty zawsze była na dole */
+}

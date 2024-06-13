@@ -1,0 +1,167 @@
+{% extends "main.html" %}
+{% load static %}
+{% block title %}Auta użytkownika{% endblock %}
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{% endblock %}
+{% block website_body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-2 mb-3">
+        <div class="card card-equal-height d-flex align-items-center justify-content-center" style="min-height: 300px;">
+            <div class="card-body d-flex align-items-center justify-content-center" style="height: 100%;">
+                <button type="button" class="btn btn-primary w-100 h-50" data-bs-toggle="modal" data-bs-target="#addCarModal">
+                    <h2 class="mb-0">DODAJ AUTO</h2>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        {% for car in cars %}
+        <div class="col-md-2 mb-3">
+            <div class="card card-equal-height">
+              {% if car.car_image %}
+              <img src="{{ car.car_image.url }}" class="custom-card-img-top" alt="Zdjęcie samochodu">
+              {% else %}
+              <img src="{% static 'img/default_car_image.jpg' %}" class="custom-card-img-top" alt="Zdjęcie domyślne">
+              {% endif %}
+                <div class="card-content text-center">
+                    <h3 class="card-title mt-3">{{ car.car_name }}</h3>
+                    <h4 class="card-text mb-3">{{ car.car_make }} {{ car.car_model }}</h4>
+                  </div>
+                  <div class="card-footer">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="">Raporty</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editCarModal{{ car.id }}">Modyfikuj</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCarModal{{ car.id }}">Usuń</button>
+                  </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal for Adding Car -->
+<div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCarModalLabel">Dodaj Nowe Auto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'add_car' %}">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-3">
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Zapisz</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal for Editing Car -->
+{% for car in cars %}
+<div class="modal fade" id="editCarModal{{ car.id }}" tabindex="-1" aria-labelledby="editCarModalLabel{{ car.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCarModalLabel{{ car.id }}">Edytuj Auto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'edit_car' car.id %}">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-3">
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Zapisz</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Modal for Deleting Car -->
+{% for car in cars %}
+<div class="modal fade" id="deleteCarModal{{ car.id }}" tabindex="-1" aria-labelledby="deleteCarModalLabel{{ car.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteCarModalLabel{{ car.id }}">Usuń Auto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Czy na pewno chcesz usunąć auto <strong>{{ car.car_name }}</strong>?</p>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="{% url 'delete_car' car.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Usuń</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script>
+  $(document).ready(function() {
+    // Nasłuchujemy zdarzenia otwarcia każdego modalu edycji
+    $('[id^=editCarModal]').on('show.bs.modal', function(event) {
+        var modal = $(this);
+        var carId = modal.attr('id').replace('editCarModal', ''); // Pobieramy ID samochodu z ID modala
+        
+        // Pobieramy dane samochodu za pomocą AJAX
+        $.ajax({
+            url: '/get_car_data/',  // Endpoint Django do pobrania danych samochodu
+            data: {
+                car_id: carId
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Ustawiamy wartości pól formularza w modalu
+                modal.find('#id_car_name').val(data.car_name);
+                modal.find('#id_car_make').val(data.car_make);
+                modal.find('#id_car_model').val(data.car_model);
+                modal.find('#id_car_year').val(data.car_year);
+                modal.find('#id_reg_number').val(data.reg_number);
+                modal.find('#id_mileage').val(data.mileage);
+                modal.find('#id_oc_date').val(data.oc_date);
+                modal.find('#id_tech_date').val(data.tech_date);
+                modal.find('#id_car_image').val(data.car_image);
+                // Dodaj resztę pól formularza
+
+                // Ustawiamy atrybuty action formularza na odpowiedni URL edycji
+                var form = modal.find('form');
+                form.attr('action', form.attr('action').replace(/\/\d+\//, '/' + carId + '/'));
+            },
+            error: function(xhr, status, error) {
+                console.error('Błąd pobierania danych samochodu:', error);
+                // Tutaj można obsłużyć błędy, np. wyświetlić komunikat dla użytkownika
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

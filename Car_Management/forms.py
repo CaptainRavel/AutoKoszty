@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim
+from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, UserCars
 
 class CarSelectionForm(forms.Form):
     make = forms.ModelChoiceField(queryset=CarMake.objects.all(), empty_label="----------")
@@ -23,4 +23,31 @@ class UserRegisterForm(UserCreationForm):
         }
         help_texts = {
             'username': ' ',
+        }
+
+class UserCarsForm(forms.ModelForm):
+    class Meta:
+        model = UserCars
+        fields = ['car_name', 'car_make', 'car_model', 'car_year', 'reg_number', 'mileage', 'oc_date', 'tech_date', 'car_image']
+        labels = {
+            'car_name': 'Nazwa auta',
+            'car_make': 'Marka auta',
+            'car_model': 'Model auta',
+            'car_year': 'Rok produkcji',
+            'reg_number': 'Numer rejestracyjny',
+            'mileage': 'Przebieg',
+            'oc_date': 'Data OC',
+            'tech_date': 'Data przeglądu technicznego',
+            'car_image': 'Zdjęcie auta'
+        }
+        widgets = {
+            'car_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'car_make': forms.TextInput(attrs={'class': 'form-control'}),
+            'car_model': forms.TextInput(attrs={'class': 'form-control'}),
+            'car_year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'reg_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'mileage': forms.NumberInput(attrs={'class': 'form-control'}),
+            'oc_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'tech_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'car_image': forms.FileInput(attrs={'class': 'form-control'}),
         }
