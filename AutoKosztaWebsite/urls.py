@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from Car_Management.views import home_page, t_o_u, user_account, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs, login_view, logout_view, register, cars_list, add_car, edit_car, delete_car, get_car_data, user_reports, reports_list, add_report, edit_report, delete_report, get_report_data, priv_pol, generate_summary_xlsx, generate_summary_csv
+from Car_Management.views import home_page, t_o_u, user_account, delete_account, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs, login_view, logout_view, register, cars_list, add_car, edit_car, delete_car, get_car_data, user_reports, reports_list, add_report, edit_report, delete_report, get_report_data, priv_pol, generate_summary_xlsx, generate_summary_csv
 
 
 urlpatterns = [
@@ -33,6 +33,7 @@ urlpatterns = [
     path('calculators/', calculators, name='calculators'),
     path('cars_base/', car_selection_view, name='cars_base'),
     path('user_account/', user_account, name='user_account'),
+    path('delete_account/', delete_account, name='delete_account'),
     path('ajax/load-models/', load_models, name='ajax_load_models'),
     path('ajax/load-generations/', load_generations, name='ajax_load_generations'),
     path('ajax/load-series/', load_series, name='ajax_load_series'),

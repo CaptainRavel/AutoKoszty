@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpec, UserCars, UserReports
 from .forms import CarSelectionForm, UserCarsForm, UserReportsForm
 from django.contrib.auth import authenticate, login, logout
@@ -360,3 +361,13 @@ def user_account(request):
         'user': user
     }
     return render(request, 'user_account.html', context)
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        request.user.delete()
+        logout(request)
+        messages.success(request, 'Twoje konto zostało usunięte.')
+        return redirect('home_page')  # Przekierowanie na stronę główną lub inną stronę po usunięciu konta
+    
+    return render(request, 'user_account.html')

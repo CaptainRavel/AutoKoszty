@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, UserCars, UserReports
 
 class CarSelectionForm(forms.Form):
@@ -24,6 +24,7 @@ class UserRegisterForm(UserCreationForm):
         help_texts = {
             'username': ' ',
         }
+
 
 class UserCarsForm(forms.ModelForm):
     class Meta:

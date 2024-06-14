@@ -15,16 +15,15 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="username" class="form-label">Nazwa użytkownika:</label>
-                        <input type="text" id="username" class="form-control" value="{{ user.username }}" readonly>
+                        <h3>{{ user.username }}</h3>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Adres email:</label>
-                        <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
+                        <h3>{{ user.email }}</h3>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary" id="editAccountBtn">Edytuj dane</button>
-                    <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Usuń konto</button>
+                    <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Usuń konto</button>
                 </div>
             </div>
         </div>
@@ -52,15 +51,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        // Obsługa kliknięcia przycisku "Edytuj dane"
-        $('#editAccountBtn').click(function() {
-            // Można tutaj dodać logikę do przejścia do strony edycji danych użytkownika
-            // np. przekierowanie do '/edit_account/'
-            window.location.href = "{% url 'edit_account' %}";
-        });
-    });
-</script>
 {% endblock %}
