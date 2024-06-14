@@ -1,0 +1,66 @@
+{% extends "main.html" %}
+{% load static %}
+{% block title %}Moje konto{% endblock %}
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{% endblock %}
+{% block website_body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Dane konta</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nazwa użytkownika:</label>
+                        <input type="text" id="username" class="form-control" value="{{ user.username }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Adres email:</label>
+                        <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" id="editAccountBtn">Edytuj dane</button>
+                    <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Usuń konto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Deleting Account -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAccountModalLabel">Potwierdzenie usunięcia konta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć swoje konto?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="{% url 'delete_account' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Usuń konto</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Obsługa kliknięcia przycisku "Edytuj dane"
+        $('#editAccountBtn').click(function() {
+            // Można tutaj dodać logikę do przejścia do strony edycji danych użytkownika
+            // np. przekierowanie do '/edit_account/'
+            window.location.href = "{% url 'edit_account' %}";
+        });
+    });
+</script>
+{% endblock %}

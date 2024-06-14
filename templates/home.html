@@ -39,7 +39,11 @@
         <h5>Po zalogowaniu dajemu Ci możliwość dodania swoich aut,</h5>
         <h5>twórz dla nich raporty, zapisuj pliki i generuj podsumowania!</h5>
         <div class="d-flex justify-content-center mt-4">
-          <button type="button" class="btn custom-btn-color w-50" onclick="window.location.href='{% url 'home_page' %}'">Sprawdź</button>
+          {% if user_has_cars %}
+          <button type="button" class="btn custom-btn-color w-50" onclick="window.location.href='{% url 'user_reports' %}'">Sprawdź</button>
+          {% else %}
+          <button type="button" class="btn custom-btn-color w-50" onclick="window.location.href='{% url 'cars_list' %}'">Sprawdź</button>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -82,7 +86,7 @@
             </svg>
             <h2 class="card-title fw-normal">AUTA</h2>
             <p class="card-text">Zapisz swoje pojazdy na koncie! Dodawaj zdjęcia i dane swoich aut.</p>
-            <a href="#" class="btn custom-btn-color">Przejdź &raquo;</a>
+            <a href="{% url 'cars_list' %}" class="btn custom-btn-color">Przejdź &raquo;</a>
         </div>
       </div>
     </div><!-- /.col-lg-4 -->
@@ -97,7 +101,11 @@
             </svg>
             <h2 class="card-title fw-normal">RAPORTY</h2>
             <p class="card-text">Do każdego auta twórz i zapisuj raporty. Wgrywaj pliki i twórz zestawienia!</p>
-            <a href="#" class="btn custom-btn-color">Przejdź &raquo;</a>
+            {% if user_has_cars %}
+            <a href="{% url 'user_reports' %}" class="btn custom-btn-color">Przejdź &raquo;</a>
+            {% else %}
+            <a href="{% url 'cars_list' %}" class="btn custom-btn-color">Przejdź &raquo;</a>
+            {% endif %}
         </div>
       </div>
     </div><!-- /.col-lg-4 -->

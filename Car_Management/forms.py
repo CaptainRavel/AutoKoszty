@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, UserCars
+from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, UserCars, UserReports
 
 class CarSelectionForm(forms.Form):
     make = forms.ModelChoiceField(queryset=CarMake.objects.all(), empty_label="----------")
@@ -50,4 +50,27 @@ class UserCarsForm(forms.ModelForm):
             'oc_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'tech_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'car_image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+class UserReportsForm(forms.ModelForm):
+    class Meta:
+        model = UserReports
+        fields = ['report_type', 'report_name', 'description', 'price', 'report_date', 'location', 'file']
+        labels = {
+            'report_type': 'Typ raportu',
+            'report_name': 'Nazwa raportu',
+            'description': 'Opis',
+            'price': 'Cena',
+            'report_date': 'Data',
+            'location': 'Miejsce',
+            'file': 'Dodaj plik',
+        }
+        widgets = {
+            'report_type': forms.Select(attrs={'class': 'form-control'}),
+            'report_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'report_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'file': forms.FileInput(attrs={'class': 'form-control'}),
         }

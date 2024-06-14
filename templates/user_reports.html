@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% load static %}
+{% block title %}Raporty{% endblock %}
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{% endblock %}
+{% block website_body %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% for car in cars %}
+        <div class="col-md-2 mb-3 d-flex">
+            <div class="card card-equal-height flex-fill">
+                {% if car.car_image %}
+                <img src="{{ car.car_image.url }}" class="custom-card-img-top" alt="Zdjęcie samochodu">
+                {% else %}
+                <img src="{% static 'img/default_car_image.jpg' %}" class="custom-card-img-top" alt="Zdjęcie domyślne">
+                {% endif %}
+                <div class="card-content text-center">
+                    <h3 class="card-title mt-3">{{ car.car_name }}</h3>
+                    <h4 class="card-text mb-3">{{ car.car_make }} {{ car.car_model }}</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'reports_list' car.id %}" class="btn btn-warning w-100">Raporty</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p class="custom-margin-bottom"> </p>
+</div>
+{% endblock %}

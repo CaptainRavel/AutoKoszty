@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from Car_Management.views import home_page, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs, login_view, logout_view, register, cars_list, add_car, edit_car, delete_car, get_car_data, get_car_models
+from Car_Management.views import home_page, t_o_u, user_account, calculators, car_selection_view, load_models, load_generations, load_series, load_trims, load_specs, login_view, logout_view, register, cars_list, add_car, edit_car, delete_car, get_car_data, user_reports, reports_list, add_report, edit_report, delete_report, get_report_data, priv_pol, generate_summary_xlsx, generate_summary_csv
 
 
 urlpatterns = [
@@ -28,8 +28,11 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('register/', register, name='register'),
     path('home/', home_page, name='home_page'),
+    path('privacy_policy/', priv_pol, name='priv_pol'),
+    path('terms_of_use/', t_o_u, name='terms'),
     path('calculators/', calculators, name='calculators'),
     path('cars_base/', car_selection_view, name='cars_base'),
+    path('user_account/', user_account, name='user_account'),
     path('ajax/load-models/', load_models, name='ajax_load_models'),
     path('ajax/load-generations/', load_generations, name='ajax_load_generations'),
     path('ajax/load-series/', load_series, name='ajax_load_series'),
@@ -40,5 +43,13 @@ urlpatterns = [
     path('edit/<int:car_id>/', edit_car, name='edit_car'),
     path('delete/<int:car_id>/', delete_car, name='delete_car'),
     path('get_car_data/', get_car_data, name='get_car_data'),
-    
+    path('user_reports/', user_reports, name='user_reports'),
+    path('reports/<int:car_id>/', reports_list, name='reports_list'),
+    path('reports/add/<int:car_id>/', add_report, name='add_report'),
+    path('reports/edit/<int:report_id>/<int:car_id>/', edit_report, name='edit_report'),
+    path('reports/delete/<int:report_id>/<int:car_id>/', delete_report, name='delete_report'),
+    path('get_report_data/', get_report_data, name='get_report_data'),
+    path('generate_summary_xlsx/<int:car_id>/', generate_summary_xlsx, name='generate_summary_xlsx'),
+    path('generate_summary_csv/<int:car_id>/', generate_summary_csv, name='generate_summary_csv'),
+   
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

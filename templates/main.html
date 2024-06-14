@@ -29,17 +29,19 @@
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'cars_list' %}"><button type="button" class="btn btn-light">MOJE POJAZDY <i class="fa-solid fa-truck-pickup"></i></button></a>
+                  <a class="nav-link" href="{% url 'cars_list' %}"><button type="button" class="btn btn-light">MOJE POJAZDY <i class="fa-solid fa-truck-pickup"></i></button></a>
               </li>
+              {% if user_has_cars %}
               <li class="nav-item">
-                <a class="nav-link" href=""><button type="button" class="btn btn-light">MOJE RAPORTY <i class="fa-solid fa-table-list"></i></button></a>
+                  <a class="nav-link" href="{% url 'user_reports' %}"><button type="button" class="btn btn-light">MOJE RAPORTY <i class="fa-solid fa-table-list"></i></button></a>
               </li>
               {% endif %}
+          {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href=""><button type="button" class="btn btn-light">MOJE KONTO <i class="fa-solid fa-user"></i></button></a>
+                <a class="nav-link" href="{% url 'user_account' %}"><button type="button" class="btn btn-light">MOJE KONTO <i class="fa-solid fa-user"></i></button></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}"><button type="button" class="btn btn-light">WYLOGUJ <i class="fa-solid fa-right-to-bracket"></i></button></a>
@@ -59,7 +61,7 @@
           <div class="row">
               <div class="col-12">
                   <p class="d-inline-block">
-                      &copy; 2024 CaptaiRavel &middot; <a href="#" class="text-white">Polityka prywatności</a> &middot; <a href="#" class="text-white">Warunki użytkowania</a>
+                      &copy; 2024 CaptaiRavel &middot; <a href="{% url 'priv_pol' %}" class="text-white">Polityka prywatności</a> &middot; <a href="{% url 'terms' %}" class="text-white">Warunki użytkowania</a>
                   </p>
                   <a href="#" class="float-end text-white"><h1><i class="fa-solid fa-circle-arrow-up"></i></h1></a>
               </div>

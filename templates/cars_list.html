@@ -6,7 +6,7 @@
 {% endblock %}
 {% block website_body %}
 <div class="container mt-4">
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col-md-2 mb-3">
         <div class="card card-equal-height d-flex align-items-center justify-content-center" style="min-height: 300px;">
             <div class="card-body d-flex align-items-center justify-content-center" style="height: 100%;">
@@ -30,7 +30,7 @@
                     <h4 class="card-text mb-3">{{ car.car_make }} {{ car.car_model }}</h4>
                   </div>
                   <div class="card-footer">
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="">Raporty</button>
+                    <a href="{% url 'reports_list' car.id %}" class="btn  btn-warning">Raporty</a>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editCarModal{{ car.id }}">Modyfikuj</button>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCarModal{{ car.id }}">Usuń</button>
                   </div>
@@ -39,6 +39,7 @@
         </div>
         {% endfor %}
     </div>
+    <p class="custom-margin-bottom"> </p>
 </div>
 
 <!-- Modal for Adding Car -->

@@ -1,8 +1,13 @@
+import datetime
+import pandas as pd
+from urllib.parse import quote
+from io import BytesIO
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpec, UserCars
-from .forms import CarSelectionForm, UserCarsForm
+from .models import CarMake, CarModel, CarGeneration, CarSerie, CarTrim, CarSpec, UserCars, UserReports
+from .forms import CarSelectionForm, UserCarsForm, UserReportsForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
@@ -11,7 +16,13 @@ from .forms import UserRegisterForm
 # Create your views here.
 
 def home_page(request):
-    return render (request, 'home.html')
+    return render(request, 'home.html')
+
+def priv_pol(request):
+    return render(request, 'privacy_policy.html')
+
+def t_o_u(request):
+    return render(request, 'terms_of_use.html')
 
 def cars_base(request):
     return render (request, 'cars_base.html')
@@ -146,14 +157,206 @@ def get_car_data(request):
     }
     
     return JsonResponse(data)
+    
+@login_required
+def reports_list(request):
+    reports = UserReports.objects.filter(user=request.user)
+    add_report_form = UserReportsForm()
+    report_forms = {report.id: UserReportsForm(instance=report) for report in reports}
+    
+    context = {
+        'reports': reports,
+        'form': add_report_form,
+        'report_forms': report_forms,
+    }
+    return render(request, 'reports_list.html', context)
 
-def get_car_models(request):
-    try:
-        car_make_id = request.GET.get('car_make_id')
-        if car_make_id:
-            car_models = CarModel.objects.filter(make_id=car_make_id).values('id', 'name')
-            return JsonResponse({'car_models': list(car_models)})
-        else:
-            return JsonResponse({'error': 'Brak parametru car_make_id'})
-    except Exception as e:
-        return JsonResponse({'error': str(e)})
+@login_required
+def add_report(request):
+    if request.method == 'POST':
+        form = UserReportsForm(request.POST, request.FILES)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.user = request.user
+            report.save()
+            return redirect('reports_list')
+    return redirect('reports_list')
+
+@login_required
+def edit_report(request, report_id):
+    report = get_object_or_404(UserReports, id=report_id, user=request.user)
+    
+    if request.method == 'POST':
+        form = UserReportsForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('reports_list')
+    else:
+        form = UserReportsForm(instance=report)
+
+    return render(request, 'reports_list.html', {
+        'form': form,
+        'report': report,  # Dodaj obiekt samochodu do kontekstu renderowania
+    })
+    
+@login_required
+def user_reports(request):
+    cars = UserCars.objects.filter(user=request.user)
+    add_car_form = UserCarsForm()
+    car_forms = {car.id: UserCarsForm(instance=car) for car in cars}
+    
+    context = {
+        'cars': cars,
+        'form': add_car_form,
+        'car_forms': car_forms,
+    }
+    return render(request, 'user_reports.html', context)
+
+@login_required
+def reports_list(request, car_id):
+    car = get_object_or_404(UserCars, id=car_id, user=request.user)
+    reports = UserReports.objects.filter(car=car)
+    add_report_form = UserReportsForm(initial={'car': car})
+    edit_report_form = UserReportsForm()  # Pusty formularz do edycji, zostanie zaktualizowany przez JS
+    context = {
+        'reports': reports,
+        'add_report_form': add_report_form,
+        'edit_report_form': edit_report_form,
+        'car_id': car_id,
+    }
+    return render(request, 'reports_list.html', context)
+
+@login_required
+def add_report(request, car_id):
+    car = get_object_or_404(UserCars, id=car_id, user=request.user)
+    if request.method == 'POST':
+        form = UserReportsForm(request.POST, request.FILES)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.car = car
+            report.save()
+            return redirect('reports_list', car_id=car_id)
+    return redirect('reports_list', car_id=car_id)
+
+@login_required
+def edit_report(request, report_id, car_id):
+    report = get_object_or_404(UserReports, id=report_id, car__id=car_id, car__user=request.user)
+    
+    if request.method == 'POST':
+        form = UserReportsForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('reports_list', car_id=car_id)
+    else:
+        form = UserReportsForm(instance=report)
+    
+    return render(request, 'edit_report.html', {'form': form, 'report_id': report_id, 'car_id': car_id})
+
+@login_required
+def delete_report(request, report_id, car_id):
+    report = get_object_or_404(UserReports, id=report_id, car__id=car_id, car__user=request.user)
+    
+    if request.method == 'POST':
+        report.delete()
+        return redirect('reports_list', car_id=car_id)
+    
+    return redirect('reports_list', car_id=car_id)
+
+
+def get_report_data(request):
+    report_id = request.GET.get('report_id')
+    report = get_object_or_404(UserReports, id=report_id)  # Pobierz obiekt raportu na podstawie ID
+    
+    # Przygotuj dane do zwrócenia jako JSON
+    data = {
+        'report_name': report.report_name,
+        'report_type': report.report_type,
+        'report_date': report.report_date.strftime('%Y-%m-%d'),  # Formatowanie daty jako string
+        'description': report.description if report.description else '',  # Opis raportu
+        'price': str(report.price),  # Cena operacji jako string
+        'location': report.location if report.location else '',  # Lokalizacja (opcjonalna)
+        'file': report.file.url if report.file else '',  # Ścieżka do załączonego pliku (opcjonalna)
+    }
+    
+    return JsonResponse(data)
+
+def generate_summary_xlsx(request, car_id):
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    car = get_object_or_404(UserCars, pk=car_id)
+    car_name = car.car_name  
+    
+    reports = UserReports.objects.filter(car_id=car_id, report_date__range=[start_date, end_date])
+
+    data = []
+    for report in reports:
+        data.append({
+            'Nazwa': report.report_name,
+            'Typ': report.get_report_type_display(),
+            'Data': report.report_date,
+            'Cena': report.price,
+            'Lokalizacja': report.location,
+            'Opis': report.description,
+            'Plik': request.build_absolute_uri(report.file.url) if report.file else 'BRAK PLIKU'
+        })
+
+    df = pd.DataFrame(data, columns=['Nazwa', 'Typ', 'Data', 'Cena', 'Lokalizacja', 'Opis', 'Plik'])
+
+    # Use a BytesIO buffer to store the Excel file in memory
+    from io import BytesIO
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Podsumowanie')
+
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    encoded_car_name = quote(car_name.encode('utf-8'))
+
+    response['Content-Disposition'] = f'attachment; filename="podsumowanie_raprtów_{encoded_car_name}_{start_date}_-_{end_date}.xlsx"'
+
+    return response
+
+def generate_summary_csv(request, car_id):
+    if request.method == 'POST':
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        
+        car = get_object_or_404(UserCars, pk=car_id)
+        car_name = car.car_name 
+    
+        reports = UserReports.objects.filter(car_id=car_id, report_date__range=[start_date, end_date])
+        
+        data = []
+        for report in reports:
+            data.append({
+                'Nazwa': report.report_name,
+                'Typ': report.get_report_type_display(),
+                'Data': report.report_date,
+                'Cena': report.price,
+                'Lokalizacja': report.location,
+                'Opis': report.description,
+                'Plik': request.build_absolute_uri(report.file.url) if report.file else 'BRAK'
+            })
+        
+        df = pd.DataFrame(data)
+        
+        # Replace semicolons in data with commas
+        df = df.applymap(lambda x: str(x).replace(';', ',') if isinstance(x, str) else x)
+        
+        response = HttpResponse(content_type='text/csv')
+        encoded_car_name = quote(car_name.encode('utf-8'))
+
+        response['Content-Disposition'] = f'attachment; filename="podsumowanie_raprtów_{encoded_car_name}_{start_date}_-_{end_date}.csv"'
+        
+        df.to_csv(response, index=False, sep=';')
+        
+        return response
+  
+@login_required 
+def user_account(request):
+    user = request.user  # Zakładając, że użytkownik jest zalogowany
+    context = {
+        'user': user
+    }
+    return render(request, 'user_account.html', context)

@@ -181,8 +181,27 @@ class UserCars(models.Model):
     mileage = models.IntegerField(blank=True, null=True)
     oc_date = models.DateField(blank=True, null=True)
     tech_date = models.DateField(blank=True, null=True)
-    car_image = models.ImageField(upload_to='static/img/', blank=True, null=True)
+    car_image = models.ImageField(upload_to='static/usr/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.car_name} ({self.car_make} {self.car_model})"
     
+    from django.db import models
+
+class UserReports(models.Model):
+    REPORT_TYPE_CHOICES = [
+        ('refuel', 'Tankowanie'),
+        ('repair', 'Naprawa'),
+    ]
+
+    car = models.ForeignKey(UserCars, on_delete=models.CASCADE, related_name='reports')
+    report_type = models.CharField(max_length=50, choices=REPORT_TYPE_CHOICES)
+    report_name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    report_date = models.DateField()
+    location = models.CharField(max_length=255, blank=True, null=True)
+    file = models.FileField(upload_to='static/usr/', blank=True, null=True)
+
+    def __str__(self):
+        return self.report_name
