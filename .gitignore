@@ -1,0 +1,63 @@
+# Pliki generowane przez systemy operacyjne
+*.DS_Store
+Thumbs.db
+
+# Katalogi wygenerowane przez środowisko wirtualne
+venv/
+env/
+
+# Pliki konfiguracyjne dla środowiska
+*.env
+
+# Katalogi generowane przez narzędzie do zbierania statycznych plików
+staticfiles/
+
+# Katalogi generowane przez narzędzie do kolekcjonowania mediów
+media/
+
+# Pliki rejestru zdarzeń
+*.log
+
+# Pliki tymczasowe
+*.bak
+*.swp
+*~
+
+# Katalogi z cache
+__pycache__/
+.cache/
+
+# Katalogi do produkcji
+production/
+
+# Pliki do produkcji
+*.pyc
+
+# Katalogi specyficzne dla IDE (np. Visual Studio Code)
+.vscode/
+.idea/
+
+# Katalogi specyficzne dla systemu operacyjnego
+.idea
+*.iml
+*.ipynb_checkpoints
+
+# Katalogi specyficzne dla testowania
+coverage/
+
+# Pliki wynikowe
+*.bak
+*.log
+
+# Pliki do raportowania
+*.html
+
+# Pliki językowe
+*.mo
+*.pot
+
+# Inne pliki tymczasowe
+*.tmp
+
+# Katalogi specyficzne dla dokumentacji
+docs/_build/

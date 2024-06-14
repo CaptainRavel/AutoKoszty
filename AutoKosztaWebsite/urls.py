@@ -23,6 +23,7 @@ from Car_Management.views import home_page, t_o_u, user_account, delete_account,
 
 
 urlpatterns = [
+    path('', home_page, name='home_page'),
     path('admin/', admin.site.urls, name='admin_panel'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
