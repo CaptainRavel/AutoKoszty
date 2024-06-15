@@ -82,8 +82,8 @@ class CarSerie(models.Model):
         CarGeneration, 
         on_delete=models.CASCADE, 
         related_name='series', 
-        blank=False,  # Pole nie może być puste w formularzach
-        null=False    # Pole nie może przechowywać wartości NULL w bazie danych
+        blank=True,  # Pole nie może być puste w formularzach
+        null=True    # Pole nie może przechowywać wartości NULL w bazie danych
     )
     name = models.CharField(
         max_length=200, 
